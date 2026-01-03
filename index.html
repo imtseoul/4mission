@@ -1,434 +1,1092 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta property="og:title" content="선교 유형 테스트">
-    <meta property="og:description" content="단기 선교 현장에서 당신은 어떤 선택을 하시겠습니까? 나의 선교 DNA를 확인해보세요.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1521316730702-829a8e30dfd0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
-    
-
-
-    <title>선교 유형 테스트</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4가지 선교 DNA | Mission DNA Test</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; word-break: keep-all; -webkit-font-smoothing: antialiased; background-color: #f8fafc; }
-        .btn-active:active { transform: scale(0.98); }
-        
-        /* 애니메이션 */
-        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        .slide-up { animation: slideUp 0.4s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
-        
-        .hidden { display: none !important; }
-        
-        /* 로딩 스피너 */
-        .loader {
-            width: 48px;
-            height: 48px;
-            border: 5px solid #e2e8f0;
-            border-bottom-color: #4f46e5;
-            border-radius: 50%;
-            display: inline-block;
-            box-sizing: border-box;
-            animation: rotation 1s linear infinite;
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #ed8936;
+            --accent-light: #fbd38d;
+            --bg-cream: #fdf6e9;
+            --bg-warm: #fef3e2;
+            --text-dark: #1a202c;
+            --text-muted: #4a5568;
+            --white: #ffffff;
+            --shadow: 0 10px 40px rgba(26, 54, 93, 0.15);
+            --shadow-soft: 0 4px 20px rgba(26, 54, 93, 0.08);
+
+            --soteriological: #C53030;
+            --participatory: #2F855A;
+            --contextual: #2B6CB0;
+            --sacramental: #6B46C1;
         }
-        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--bg-cream);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(237, 137, 54, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(26, 54, 93, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(251, 211, 141, 0.15) 0%, transparent 40%);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.15;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .floating-icon:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-icon:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+            font-size: 1.5rem;
+        }
+
+        .floating-icon:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+            font-size: 1.8rem;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(20px, -20px) rotate(5deg);
+            }
+
+            50% {
+                transform: translate(0, -40px) rotate(0deg);
+            }
+
+            75% {
+                transform: translate(-20px, -20px) rotate(-5deg);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            padding: 48px 40px;
+            text-align: center;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .landing-icon {
+            font-size: 4rem;
+            margin-bottom: 24px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .landing-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .landing-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .landing-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
+
+        .landing-verse {
+            background: var(--bg-warm);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .landing-verse-text {
+            font-size: 0.95rem;
+            font-style: italic;
+            color: var(--text-dark);
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+
+        .landing-verse-ref {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .landing-description {
+            background: var(--bg-warm);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 36px;
+            line-height: 1.8;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .landing-description strong {
+            color: var(--primary);
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, var(--accent) 0%, #dd6b20 100%);
+            color: var(--white);
+            border: none;
+            padding: 18px 48px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(237, 137, 54, 0.35);
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(237, 137, 54, 0.45);
+        }
+
+        .powered-by {
+            margin-top: 32px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .progress-container {
+            margin-bottom: 32px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .progress-total {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            line-height: 1.7;
+            margin-bottom: 32px;
+            min-height: 80px;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: var(--white);
+            border: 2px solid #e2e8f0;
+            padding: 18px 24px;
+            border-radius: 14px;
+            font-size: 1rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: left;
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.5;
+        }
+
+        .option-btn:hover {
+            border-color: var(--accent);
+            background: var(--bg-warm);
+            transform: translateX(5px);
+        }
+
+        .loading-card {
+            padding: 60px 40px;
+        }
+
+        .loading-icon {
+            font-size: 3.5rem;
+            margin-bottom: 28px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .loading-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .loading-subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .loading-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 32px;
+        }
+
+        .loading-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: dotPulse 1.4s ease-in-out infinite;
+        }
+
+        .loading-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes dotPulse {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.6);
+                opacity: 0.5;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .result-card {
+            padding: 48px 36px;
+        }
+
+        .result-icon {
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .result-badge.soteriological {
+            background: rgba(197, 48, 48, 0.1);
+            color: var(--soteriological);
+        }
+
+        .result-badge.participatory {
+            background: rgba(47, 133, 90, 0.1);
+            color: var(--participatory);
+        }
+
+        .result-badge.contextual {
+            background: rgba(43, 108, 176, 0.1);
+            color: var(--contextual);
+        }
+
+        .result-badge.sacramental {
+            background: rgba(107, 70, 193, 0.1);
+            color: var(--sacramental);
+        }
+
+        .result-type {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .result-type.soteriological {
+            color: var(--soteriological);
+        }
+
+        .result-type.participatory {
+            color: var(--participatory);
+        }
+
+        .result-type.contextual {
+            color: var(--contextual);
+        }
+
+        .result-type.sacramental {
+            color: var(--sacramental);
+        }
+
+        .result-summary {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 28px;
+            padding: 0 10px;
+        }
+
+        .result-section {
+            background: var(--bg-warm);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .result-section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-section-content {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        .result-verse {
+            background: var(--bg-warm);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 16px 16px 0;
+            padding: 20px 24px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .result-verse-text {
+            font-size: 0.95rem;
+            font-style: italic;
+            color: var(--text-dark);
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+
+        .result-verse-ref {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .result-tip {
+            background: linear-gradient(135deg, rgba(237, 137, 54, 0.1) 0%, rgba(251, 211, 141, 0.15) 100%);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-top: 16px;
+            text-align: left;
+        }
+
+        .result-tip-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .result-tip-content {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        .result-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .action-btn {
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+        }
+
+        .action-btn.secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid #e2e8f0;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 54, 93, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 24px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 36px;
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 8px;
+        }
+
+        .modal-close:hover {
+            color: var(--text-dark);
+        }
+
+        .type-card {
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border-left: 4px solid;
+        }
+
+        .type-card.soteriological {
+            background: rgba(197, 48, 48, 0.05);
+            border-color: var(--soteriological);
+        }
+
+        .type-card.participatory {
+            background: rgba(47, 133, 90, 0.05);
+            border-color: var(--participatory);
+        }
+
+        .type-card.contextual {
+            background: rgba(43, 108, 176, 0.05);
+            border-color: var(--contextual);
+        }
+
+        .type-card.sacramental {
+            background: rgba(107, 70, 193, 0.05);
+            border-color: var(--sacramental);
+        }
+
+        .type-card:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .type-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .type-card-icon {
+            font-size: 1.5rem;
+        }
+
+        .type-card-name {
+            font-weight: 600;
+        }
+
+        .type-card-name.soteriological {
+            color: var(--soteriological);
+        }
+
+        .type-card-name.participatory {
+            color: var(--participatory);
+        }
+
+        .type-card-name.contextual {
+            color: var(--contextual);
+        }
+
+        .type-card-name.sacramental {
+            color: var(--sacramental);
+        }
+
+        .type-card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 36px 24px;
+            }
+
+            .landing-title {
+                font-size: 1.8rem;
+            }
+
+            .question-text {
+                font-size: 1.1rem;
+            }
+
+            .result-type {
+                font-size: 1.6rem;
+            }
+        }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 bg-slate-100">
 
-    <div id="app-container" class="max-w-md w-full bg-white rounded-[24px] shadow-2xl overflow-hidden relative min-h-[700px] flex flex-col">
-        
-        <header class="p-4 text-center border-b border-slate-50 bg-white z-10">
-            <h1 class="text-xs font-bold text-slate-400 tracking-[0.2em]">MISSION TYPE TEST</h1>
-        </header>
+<body>
+    <div class="bg-pattern"></div>
+    <div class="floating-elements">
+        <div class="floating-icon">✈️</div>
+        <div class="floating-icon">🌍</div>
+        <div class="floating-icon">✝️</div>
+    </div>
 
-        <section id="start-screen" class="flex-1 flex flex-col items-center justify-center p-8 text-center fade-in">
-            <div class="mb-6 text-7xl animate-bounce">✈️</div>
-            <h2 class="text-4xl font-black mb-2 text-slate-800">선교 유형<br>테스트</h2>
-            <p class="text-slate-400 text-sm mb-8">나의 선교 DNA는 무엇일까?</p>
-            
-            <div class="bg-slate-50 p-6 rounded-2xl mb-8 w-full border border-slate-100">
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    선교지로 떠나는 비행기 안,<br>
-                    당신의 마음속엔 무엇이 담겨있나요?<br><br>
-                    <strong>10가지 질문</strong>을 통해<br>나만의 선교 스타일을 알아보세요.
-                </p>
-            </div>
-
-            <button onclick="startQuiz()" class="btn-active w-full bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-colors">
-                테스트 시작하기
-            </button>
-            <p class="mt-8 text-[10px] text-slate-300 font-bold">Powered by 미셔널신학연구소</p>
-        </section>
-
-        <section id="quiz-screen" class="hidden flex-1 flex flex-col p-6">
-            <div class="w-full bg-slate-100 h-1.5 rounded-full mb-8">
-                <div id="progress-bar" class="bg-indigo-500 h-full rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
-            </div>
-            
-            <div class="flex-1 flex flex-col">
-                <div class="mb-4">
-                    <span id="question-count" class="text-indigo-600 font-bold text-xl">01</span>
-                    <span class="text-slate-300 text-sm font-medium">/ 10</span>
+    <div class="container">
+        <div id="landing-screen" class="screen active">
+            <div class="card">
+                <div class="landing-icon">✈️</div>
+                <div class="landing-badge">Mission DNA Test</div>
+                <h1 class="landing-title">4가지 선교 DNA</h1>
+                <p class="landing-subtitle">나의 선교 DNA를 발견하세요</p>
+                <div class="landing-verse">
+                    <p class="landing-verse-text">"그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의 이름으로 세례를 베풀고"</p>
+                    <p class="landing-verse-ref">— 마태복음 28:19</p>
                 </div>
-
-                <h3 id="question-text" class="text-xl font-bold mb-8 leading-snug text-slate-800 min-h-[64px]">
-                    질문 로딩 중...
-                </h3>
-
-                <div id="options-container" class="flex flex-col gap-3">
-                    </div>
-            </div>
-        </section>
-
-        <section id="loading-screen" class="hidden flex-1 flex flex-col items-center justify-center p-8 bg-white absolute inset-0 z-20">
-            <span class="loader mb-6"></span>
-            <h3 class="text-xl font-bold text-slate-800 mb-2">선교 DNA 분석 중...</h3>
-            <p class="text-sm text-slate-500" id="loading-text">당신의 선택을 분석하고 있습니다.</p>
-        </section>
-
-        <section id="result-screen" class="hidden flex-1 flex flex-col p-0 bg-white overflow-y-auto">
-            <div id="capture-area" class="bg-white p-8 pb-6 flex-1 flex flex-col items-center">
-                <div class="inline-block bg-indigo-50 text-indigo-600 text-xs font-bold px-3 py-1 rounded-full mb-4">나의 선교 유형</div>
-                
-                <h2 id="result-title" class="text-2xl font-black text-slate-900 mb-2 text-center break-keep">결과 제목</h2>
-                <p id="result-subtitle" class="text-lg font-medium text-slate-500 mb-8 text-center break-keep">"한 줄 요약"</p>
-
-                <div class="w-full space-y-4">
-                    <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
-                        <h4 class="font-bold text-blue-800 mb-2 flex items-center gap-2 text-sm">
-                            <span class="text-lg">💎</span> 당신의 강점
-                        </h4>
-                        <p id="result-desc" class="text-sm text-slate-700 leading-relaxed text-justify">
-                            설명이 들어갑니다.
-                        </p>
-                    </div>
-
-                    <div class="bg-orange-50/50 p-6 rounded-2xl border border-orange-100">
-                        <h4 class="font-bold text-orange-800 mb-2 flex items-center gap-2 text-sm">
-                            <span class="text-lg">⚖️</span> 함께 고민할 점
-                        </h4>
-                        <p id="result-balance" class="text-sm text-slate-700 leading-relaxed text-justify">
-                            균형 잡기 내용이 들어갑니다.
-                        </p>
-                    </div>
+                <div class="landing-description">
+                    선교를 앞둔 당신!<br><br>
+                    <strong>10가지 질문</strong>을 통해<br>
+                    나만의 선교 DNA를 발견하고<br>
+                    선교지에서 더 효과적으로 섬길 준비를 하세요.
                 </div>
-
-                <div class="mt-8 pt-6 border-t border-slate-50 w-full text-center">
-                    <p class="text-[10px] text-slate-300 font-bold tracking-widest">Powered by 미셔널신학연구소</p>
-                </div>
-            </div>
-
-            <div class="p-6 bg-white border-t border-slate-100 space-y-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-10">
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="saveResult()" class="btn-active bg-slate-100 text-slate-700 py-3.5 rounded-xl font-bold text-sm hover:bg-slate-200 transition-colors flex items-center justify-center gap-2">
-                        <span>📷</span> 결과 저장
-                    </button>
-                    <button onclick="shareResult()" class="btn-active bg-indigo-600 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
-                        <span>🔗</span> 공유하기
-                    </button>
-                </div>
-                <button onclick="openAllTypes()" class="btn-active w-full bg-white border border-slate-200 text-slate-600 py-3.5 rounded-xl font-bold text-sm hover:bg-slate-50 transition-colors">
-                    👀 다른 유형 전체 보기
-                </button>
-                <div class="text-center pt-2">
-                    <button onclick="location.reload()" class="text-xs text-slate-400 underline p-2">처음부터 다시 하기</button>
-                </div>
-            </div>
-        </section>
-
-        <div id="all-types-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center">
-            <div class="bg-white w-full max-w-md h-[85vh] sm:h-[600px] rounded-t-[32px] sm:rounded-[32px] overflow-hidden flex flex-col slide-up shadow-2xl relative">
-                
-                <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-white sticky top-0 z-10">
-                    <h3 class="font-bold text-lg text-slate-800">모든 선교 유형</h3>
-                    <button onclick="closeAllTypes()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200">✕</button>
-                </div>
-
-                <div id="all-types-list" class="p-5 overflow-y-auto bg-slate-50 flex-1 space-y-4 pb-10">
-                    </div>
+                <button class="start-btn" onclick="startTest()">테스트 시작하기</button>
+                <p class="powered-by">Powered by 미셔널신학연구소</p>
             </div>
         </div>
 
+        <div id="question-screen" class="screen">
+            <div class="card">
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span class="progress-number"><span id="current-q">01</span></span>
+                        <span class="progress-total">/ 10</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 10%"></div>
+                    </div>
+                </div>
+                <h2 class="question-text" id="question-text">질문 로딩 중...</h2>
+                <div class="options-container" id="options-container"></div>
+            </div>
+        </div>
+
+        <div id="loading-screen" class="screen">
+            <div class="card loading-card">
+                <div class="loading-icon">🕊️</div>
+                <h2 class="loading-title">선교 DNA 분석 중...</h2>
+                <p class="loading-subtitle">당신의 응답을 분석하고 있습니다.</p>
+                <div class="loading-dots">
+                    <div class="loading-dot"></div>
+                    <div class="loading-dot"></div>
+                    <div class="loading-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="result-screen" class="screen">
+            <div class="card result-card">
+                <div class="result-icon" id="result-icon">✝️</div>
+                <div class="result-badge" id="result-badge">나의 선교 DNA</div>
+                <h2 class="result-type" id="result-type">결과 유형</h2>
+                <p class="result-summary" id="result-summary">"요약 문구"</p>
+                <div class="result-section">
+                    <div class="result-section-title">📖 이 DNA의 특징</div>
+                    <p class="result-section-content" id="result-feature">특징 설명</p>
+                </div>
+                <div class="result-section">
+                    <div class="result-section-title">💪 당신의 강점</div>
+                    <p class="result-section-content" id="result-strength">강점 설명</p>
+                </div>
+                <div class="result-verse">
+                    <p class="result-verse-text" id="result-verse-text">성경 구절</p>
+                    <p class="result-verse-ref" id="result-verse-ref">— 구절 출처</p>
+                </div>
+                <div class="result-tip">
+                    <div class="result-tip-title">💡 단기 선교 Tip</div>
+                    <p class="result-tip-content" id="result-tip">선교 팁</p>
+                </div>
+                <p class="powered-by">Powered by 미셔널신학연구소</p>
+                <div class="result-actions">
+                    <button class="action-btn secondary" id="show-all-btn">👀 다른 유형 전체 보기</button>
+                    <button class="action-btn primary" id="restart-btn">🔄 처음부터 다시 하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content" id="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">4가지 선교 DNA</h3>
+                <button class="modal-close" id="modal-close-btn">✕</button>
+            </div>
+            <div id="all-types-container"></div>
+        </div>
     </div>
 
     <script>
-        // --- 데이터 (수정된 문항 적용) ---
-        const questions = [
+        var questions = [
             {
-                q: "우리가 큰 비용을 들여 해외 선교를 떠나는 가장 절박한 이유는 무엇입니까?",
-                a: [
-                    { text: "예수님을 모르는 이들이 심판을 피하고, 구원을 얻게 하기 위해서입니다.", type: "A" },
-                    { text: "하나님이 만드신 세상을 회복하는 거대한 일에 동참하기 위해서입니다.", type: "B" },
-                    { text: "하나님의 사랑이 그들의 문화 속으로 자연스럽게 스며들게 하기 위해서입니다.", type: "C" },
-                    { text: "열방이 세례를 받고 주님의 식탁(성찬)에서 하나가 되게 하기 위해서입니다.", type: "D" }
+                text: "선교에서 가장 중요하게 생각하는 것은?", options: [
+                    { text: "현지인들이 예수님을 영접하고 구원받는 것", type: "soteriological" },
+                    { text: "하나님의 선교에 동참하여 다양한 필요를 채우는 것", type: "participatory" },
+                    { text: "현지 문화를 이해하고 그에 맞는 방식으로 복음을 전하는 것", type: "contextual" },
+                    { text: "연계 교회와 연합하여 예배와 교제의 공동체를 세우는 것", type: "sacramental" }
                 ]
             },
             {
-                q: "현지 일정표를 짤 때, 가장 비중을 두고 싶은 활동은 무엇입니까?",
-                a: [
-                    { text: "말씀 전파 (설교, 성경 공부, 전도 집회)", type: "A" },
-                    { text: "봉사와 섬김 (의료, 교육, 집 짓기, 환경 정화)", type: "B" },
-                    { text: "교제와 경청 (현지인과 먹고 자며 친구 되기)", type: "C" },
-                    { text: "예배와 예식 (현지 성도들과 함께하는 성찬과 세례)", type: "D" }
+                text: "선교지에 도착해서 첫날, 무엇을 가장 하고 싶은가요?", options: [
+                    { text: "복음을 전할 기회를 찾고 영혼 구원을 위해 기도한다", type: "soteriological" },
+                    { text: "지역 사회의 필요를 파악하고 봉사 활동을 준비한다", type: "participatory" },
+                    { text: "현지인들과 교류하며 문화와 상황을 먼저 이해한다", type: "contextual" },
+                    { text: "연계 교회를 방문해 함께 예배하며 교제한다", type: "sacramental" }
                 ]
             },
             {
-                q: "현지의 심각한 빈곤과 부패한 정치를 보았을 때, 우리는 어떻게 반응해야 할까요?",
-                a: [
-                    { text: "교회가 정치를 바꿀 순 없습니다. 우리는 한 사람을 변화시키는 일에 집중합니다.", type: "A" },
-                    { text: "불의에 저항하고 가난한 자를 돕는 것은 복음의 필수 요소입니다. 적극 돕습니다.", type: "B" },
-                    { text: "우리의 해결책을 강요하지 말고, 그들 상황에 맞는 해방의 길을 함께 고민합니다.", type: "C" },
-                    { text: "교회가 먼저 평등하게 먹고 마시는 정의로운 모델이 되어 세상에 보여줍니다.", type: "D" }
+                text: "선교 팀에서 어떤 역할을 맡고 싶나요?", options: [
+                    { text: "전도와 복음 전파를 담당하는 역할", type: "soteriological" },
+                    { text: "봉사와 구호 활동을 기획하고 실행하는 역할", type: "participatory" },
+                    { text: "현지 언어/문화를 배우고 소통을 돕는 역할", type: "contextual" },
+                    { text: "예배 인도와 팀의 영적 분위기를 이끄는 역할", type: "sacramental" }
                 ]
             },
             {
-                q: "현지인들이 믿는 토속 신앙이나 타종교를 어떻게 바라보아야 할까요?",
-                a: [
-                    { text: "우상 숭배입니다. 회개를 촉구하고 유일한 구원자 예수님께 돌아오게 합니다.", type: "A" },
-                    { text: "그들의 종교심 뒤에 숨겨진 갈망을 이해하고, 그들의 문화적 가치는 존중합니다.", type: "B" },
-                    { text: "함부로 정죄하지 않습니다. 성령님이 그들 문화 안에서도 일하심을 믿고 대화합니다.", type: "C" },
-                    { text: "거짓된 제사에서 나와 참된 제사인 예배(성찬)로 오라고 초청합니다.", type: "D" }
+                text: "선교지에서 가장 보람을 느끼는 순간은?", options: [
+                    { text: "누군가 예수님을 영접하고 결신할 때", type: "soteriological" },
+                    { text: "지역 사회가 실질적으로 변화되는 것을 볼 때", type: "participatory" },
+                    { text: "현지인의 삶과 문화 속에서 복음이 자연스럽게 전해질 때", type: "contextual" },
+                    { text: "연계 교회 성도들과 함께 예배하고 하나됨을 경험할 때", type: "sacramental" }
                 ]
             },
             {
-                q: "현지인을 만났을 때, 우리 팀을 어떤 사람으로 기억해주길 바라나요?",
-                a: [
-                    { text: "진리의 전달자: '중요한 진실(복음)을 명확하게 알려준 사람들'", type: "A" },
-                    { text: "고마운 이웃: '우리의 어려운 형편을 진심으로 도와준 사람들'", type: "B" },
-                    { text: "편안한 친구: '우리를 무시하지 않고 이야기를 잘 들어준 사람들'", type: "C" },
-                    { text: "한 식구: '함께 밥을 먹을 때 정말 가족 같았던 사람들'", type: "D" }
+                text: "선교 준비 과정에서 가장 집중하고 싶은 것은?", options: [
+                    { text: "복음 전도법과 제자 양육 방법 훈련", type: "soteriological" },
+                    { text: "지역 사회 필요 조사와 봉사 프로그램 기획", type: "participatory" },
+                    { text: "현지 언어, 문화, 종교적 배경 학습", type: "contextual" },
+                    { text: "예배 준비와 영적 공동체 형성 훈련", type: "sacramental" }
                 ]
             },
             {
-                q: "이번 선교 기간 중, '이것만큼은 절대 피하고 싶다'고 생각하는 상황은?",
-                a: [
-                    { text: "알맹이 실종: 봉사는 열심히 했지만, 정작 예수님이 누구신지는 말 못한 것", type: "A" },
-                    { text: "말뿐인 위로: '예수 믿으세요' 외쳤지만, 배고픈 아이에게 아무것도 안 해준 것", type: "B" },
-                    { text: "무례한 실수: 좋은 의도였지만, 우리의 행동이 그들의 문화를 무시하게 된 것", type: "C" },
-                    { text: "따로 국밥: 사역은 성공했지만, 선교팀끼리 다투거나 현지인과 하나 되지 못한 것", type: "D" }
+                text: "성경에서 가장 마음에 와닿는 선교의 모습은?", options: [
+                    { text: "바울이 회당에서 예수가 그리스도임을 증거한 것", type: "soteriological" },
+                    { text: "초대교회가 가난한 자들을 돌보며 섬긴 것", type: "participatory" },
+                    { text: "바울이 아테네에서 문화에 맞게 복음을 전한 것", type: "contextual" },
+                    { text: "예루살렘 교회가 모여 떡을 떼며 교제한 것", type: "sacramental" }
                 ]
             },
             {
-                q: "선교가 끝난 뒤, 현지인들이 어떤 모습으로 남기를 바랍니까?",
-                a: [
-                    { text: "확실한 교인: 회심하여 지역 교회에 정착하고 순종하는 성도", type: "A" },
-                    { text: "세상의 청지기: 삶의 모든 영역에서 하나님의 뜻을 실천하는 사람", type: "B" },
-                    { text: "주체적인 신앙인: 선교사를 맹신하기보다 성령님의 인도를 따르는 제자", type: "C" },
-                    { text: "화해의 공동체: 한 식탁에서 원수와 화해하고 이웃을 위해 희생하는 삶", type: "D" }
+                text: "선교 후 가장 남기고 싶은 것은?", options: [
+                    { text: "새로운 신자들과 제자 훈련의 기초", type: "soteriological" },
+                    { text: "지역 사회에 지속적으로 영향을 줄 사역의 열매", type: "participatory" },
+                    { text: "현지인들과 형성된 관계와 문화적 다리", type: "contextual" },
+                    { text: "연계 교회와의 연합과 지속적인 교제의 관계", type: "sacramental" }
                 ]
             },
             {
-                q: "선교 보고서에 어떤 내용이 담길 때 가장 뿌듯하겠습니까?",
-                a: [
-                    { text: "'이번 선교를 통해 00명이 결신하고 세례를 받기로 했습니다.' (회심)", type: "A" },
-                    { text: "'마을에 우물이 생겼고, 주민들의 삶에 평화가 깃들었습니다.' (회복)", type: "B" },
-                    { text: "'현지인들이 자신들의 가락으로 찬양을 만들어 불렀습니다.' (토착화)", type: "C" },
-                    { text: "'서로 원수였던 자들이 한 식탁에서 떡을 떼며 눈물을 흘렸습니다.' (연합)", type: "D" }
+                text: "선교지에서 어려움에 부딪혔을 때 어떻게 대처하나요?", options: [
+                    { text: "복음 전파라는 핵심 사명에 집중하며 인내한다", type: "soteriological" },
+                    { text: "현지의 실제적 필요를 채우며 관계를 쌓아간다", type: "participatory" },
+                    { text: "상황을 분석하고 문화에 맞는 새로운 접근법을 찾는다", type: "contextual" },
+                    { text: "팀원들과 함께 기도하고 예배하며 하나님께 의지한다", type: "sacramental" }
                 ]
             },
             {
-                q: "현지인들에게 '지옥'에 대해 이야기해야 할까요?",
-                a: [
-                    { text: "반드시 해야 합니다. 이 경고를 빼먹는 것은 가장 중요한 직무 유기입니다.", type: "A" },
-                    { text: "해야 하지만, 악을 멸하고 세상을 바로잡으시는 하나님의 정의로 설명합니다.", type: "B" },
-                    { text: "조심스러워야 합니다. 공포심보다는 하나님의 사랑을 전하는 것이 핵심입니다.", type: "C" },
-                    { text: "심판은 하나님의 식탁에서 쫓겨나는 것입니다. 빛의 공동체로 오라고 초청합니다.", type: "D" }
+                text: "선교에 대한 나의 핵심 신념은?", options: [
+                    { text: "영혼 구원이 가장 시급하고 중요한 사명이다", type: "soteriological" },
+                    { text: "하나님은 창조세계 전체의 회복을 원하신다", type: "participatory" },
+                    { text: "복음은 각 문화 속에서 새롭게 표현되어야 한다", type: "contextual" },
+                    { text: "교회는 세상 속에서 하나님 나라를 보여주는 공동체다", type: "sacramental" }
                 ]
             },
             {
-                q: "선교를 마치고 돌아온 우리는 이제 무엇을 해야 합니까?",
-                a: [
-                    { text: "우리 교회를 말씀과 교리로 더 단단하게 무장시켜야 합니다.", type: "A" },
-                    { text: "우리 사회(직장, 학교) 속에서 공적 책임(정의, 사랑)을 실천해야 합니다.", type: "B" },
-                    { text: "타문화의 풍성함을 통해, 다름을 인정하고 다양성을 포용하는 마음을 갖습니다.", type: "C" },
-                    { text: "매주 드리는 예배와 성찬이 곧 선교임을 깨닫고 거룩한 예식을 회복합니다.", type: "D" }
+                text: "10년 후, 이번 선교가 어떤 모습으로 기억되길 원하나요?", options: [
+                    { text: "많은 영혼들이 구원받아 제자가 된 시작점", type: "soteriological" },
+                    { text: "지역 사회에 실제적인 변화를 가져온 사역", type: "participatory" },
+                    { text: "현지 문화 안에서 토착화된 신앙의 씨앗", type: "contextual" },
+                    { text: "연계 교회와 연합하여 함께 성장한 공동체", type: "sacramental" }
                 ]
             }
         ];
 
-        const results = {
-            "A": {
-                type: "구원론적 선교",
-                subtitle: "\"불타는 집에서 사람을 구하는 소방관\"",
-                desc: "당신은 복음의 핵심(죄, 십자가, 구원)을 명확히 알고 있으며, 영혼 구원에 대한 뜨거운 열정이 있습니다. 복잡한 사회 문제보다 가장 시급한 '영원한 생명'의 문제에 집중합니다. 교회의 질서와 권위를 중요하게 여깁니다.",
-                balance: "영혼의 구원은 가장 시급한 일이지만, 그들이 오늘 겪고 있는 현실의 고통(가난, 질병, 불의)에 대해서도 하나님의 마음으로 공감하고 있을까요? 말로 전한 사랑을 삶으로도 보여주는 노력이 필요하지 않을까요?"
+        var missionTypes = {
+            soteriological: {
+                icon: "✝️", name: "구원 선교", englishName: "Soteriological Mission",
+                summary: "영혼 구원과 복음 전파에 열정을 가진 선교자",
+                feature: "구원 선교 DNA는 개인의 영적 구원과 복음 전파를 선교의 핵심으로 봅니다. 예수 그리스도를 통한 죄 사함과 영생이 인간의 가장 시급한 필요라고 믿으며, 제자 훈련과 교회 개척을 통해 하나님 나라를 확장하는 것에 집중합니다.",
+                strength: "당신은 복음의 본질을 명확히 이해하고 전달하는 능력이 있습니다. 영혼에 대한 긴박한 마음과 전도에 대한 열정이 있으며, 어떤 상황에서도 복음 전파의 우선순위를 잃지 않습니다.",
+                verse: "내가 복음을 부끄러워하지 아니하노니 이 복음은 모든 믿는 자에게 구원을 주시는 하나님의 능력이 됨이라",
+                verseRef: "로마서 1:16",
+                tip: "선교에서 전도의 열정을 유지하되, 현지 문화와 교회의 상황도 존중해주세요. 결신자들이 연계 교회에 잘 정착할 수 있도록 연결해주는 것도 중요합니다."
             },
-            "B": {
-                type: "참여 선교",
-                subtitle: "\"하나님의 잃어버린 세계를 재건하는 건축가\"",
-                desc: "당신은 선교를 전도에만 국한하지 않고, 사회 정의, 환경, 이웃 사랑 등 세상의 모든 영역을 하나님의 뜻대로 회복하려는 넓은 시야를 가졌습니다. '삶이 곧 선교'라는 의식이 강합니다.",
-                balance: "너무 많은 필요를 채우려다 보니 정작 가장 중요한 '예수 그리스도의 복음'을 전할 기회를 놓치고 있지는 않은지 점검해 볼까요? 좋은 일을 하는 NGO와 교회의 선교는 무엇이 다를까요? 영원한 생명의 긴급성 또한 놓치지 마세요."
+            participatory: {
+                icon: "🌍", name: "참여 선교", englishName: "Participatory Mission",
+                summary: "하나님의 선교에 전인적으로 동참하는 선교자",
+                feature: "참여 선교 DNA는 선교를 하나님의 전체적인 구속 사역에 참여하는 것으로 이해합니다. 복음 선포뿐 아니라 창조 세계 돌봄, 정의 실현, 가난한 자 섬김 등 하나님의 모든 사역에 동참합니다.",
+                strength: "당신은 선교를 폭넓게 이해하고 다양한 방식으로 하나님의 사랑을 실천합니다. 말과 행동의 균형을 이루며, 지역 사회의 실제적 필요를 채우는 데 관심이 많습니다.",
+                verse: "그가 네게 선한 것이 무엇임을 보이셨나니 여호와께서 네게 구하시는 것은 오직 정의를 행하며 인자를 사랑하며 겸손하게 네 하나님과 함께 행하는 것이 아니냐",
+                verseRef: "미가 6:8",
+                tip: "다양한 봉사 활동에 참여하면서도 복음 전파의 기회를 놓치지 마세요. 당신의 섬김이 하나님의 사랑을 드러내는 통로가 될 때, 자연스러운 복음 증거가 이루어집니다."
             },
-            "C": {
-                type: "상황적 선교",
-                subtitle: "\"그들의 언어로 사랑을 노래하는 번역가\"",
-                desc: "당신은 타문화를 존중하고 경청하는 겸손한 태도를 가졌습니다. 우리의 기독교 문화를 강요하지 않고, 그들의 문화 속에서 복음이 꽃피우기를 기다려줄 줄 아는 인내심이 있습니다. 다양성을 환영합니다.",
-                balance: "문화를 존중하는 태도는 훌륭하지만, 혹시 복음의 절대적인 진리마저 타협할 위험은 없을까요? 문화적 옷은 갈아입더라도, 변하지 않는 복음의 본질(알맹이)이 무엇인지 늘 고민한다면 더 건강한 선교가 될 것입니다."
+            contextual: {
+                icon: "🪴", name: "상황 선교", englishName: "Contextual Mission",
+                summary: "문화를 이해하고 상황에 맞게 복음을 전하는 선교자",
+                feature: "상황 선교 DNA는 복음이 각 문화와 상황 속에서 새롭게 표현되어야 한다고 믿습니다. 현지의 언어, 문화, 종교적 배경을 깊이 이해하고, 그 맥락 안에서 복음의 의미를 발견하고 전달합니다.",
+                strength: "당신은 문화에 대한 민감성과 학습 능력이 뛰어납니다. 현지인의 관점에서 생각하고 소통하려는 노력을 아끼지 않으며, 복음이 그 문화 안에서 자연스럽게 뿌리내리도록 돕습니다.",
+                verse: "유대인들에게 내가 유대인과 같이 된 것은 유대인들을 얻고자 함이요... 내가 모든 사람에게 모든 것이 된 것은 아무쪼록 몇 사람이라도 구원하고자 함이니",
+                verseRef: "고린도전서 9:20,22",
+                tip: "문화 이해에 시간을 투자하되, 짧은 기간 안에 모든 것을 이해하려 하지 마세요. 겸손한 학습자의 자세로 현지인들에게 배우면서, 복음의 본질은 놓치지 않도록 주의하세요."
             },
-            "D": {
-                type: "성례전적 선교",
-                subtitle: "\"세상 속에 하나님 나라의 식탁을 차리는 요리사\"",
-                desc: "당신은 교회가 세상과 구별된 거룩한 공동체가 되는 것 자체가 가장 큰 선교라고 믿습니다. 프로그램보다 예배(세례, 성찬)의 회복을 통해 세상을 치유하고자 하는 깊이 있는 영성을 가졌습니다.",
-                balance: "거룩함과 예식을 강조하다가, 자칫 교회 문턱이 너무 높아져서 외부인들이 들어오기 힘든 '그들만의 리그'가 될 우려는 없을까요? 예배당 안에서의 거룩함이 세상 밖으로 흘러가 이웃을 향한 섬김과 환대로 이어져야 합니다."
+            sacramental: {
+                icon: "🍞", name: "성례 선교", englishName: "Sacramental Mission",
+                summary: "교회 공동체를 통해 하나님 나라를 보여주는 선교자",
+                feature: "성례 선교 DNA는 교회 자체가 세상에 보내진 하나님 나라의 표징이라고 믿습니다. 세례와 성찬을 통한 공동체적 삶, 예배와 교제를 통한 하나됨이 선교의 핵심입니다.",
+                strength: "당신은 공동체의 가치와 예배의 능력을 깊이 이해합니다. 팀의 영적 분위기를 이끌고 현지 교회와의 연합을 추구합니다.",
+                verse: "그들이 사도의 가르침을 받아 서로 교제하고 떡을 떼며 오로지 기도하기를 힘쓰니라",
+                verseRef: "사도행전 2:42",
+                tip: "예배와 교제를 통해 팀의 영적 건강을 돌보면서도, 선교지에서의 구체적인 사역에도 적극 참여하세요. 연계 교회와의 연합이 지속적인 관계로 이어지도록 노력하세요."
             }
         };
 
-        // --- 로직 ---
-        let currentQ = 0;
-        let scores = { A: 0, B: 0, C: 0, D: 0 };
+        var currentQuestion = 0;
+        var answers = { soteriological: 0, participatory: 0, contextual: 0, sacramental: 0 };
 
-        function startQuiz() {
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('quiz-screen').classList.remove('hidden');
-            renderQuestion();
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('show-all-btn').addEventListener('click', showAllTypes);
+            document.getElementById('restart-btn').addEventListener('click', restartTest);
+            document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+            document.getElementById('modal-overlay').addEventListener('click', function (e) {
+                if (e.target === document.getElementById('modal-overlay')) closeModal();
+            });
+            document.getElementById('modal-content').addEventListener('click', function (e) { e.stopPropagation(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+        });
+
+        function startTest() {
+            currentQuestion = 0;
+            answers = { soteriological: 0, participatory: 0, contextual: 0, sacramental: 0 };
+            showScreen('question-screen');
+            displayQuestion();
         }
 
-        function renderQuestion() {
-            const q = questions[currentQ];
-            // 페이드 효과를 위해 텍스트 교체 전 투명도 조절
-            const qText = document.getElementById('question-text');
-            const qOptions = document.getElementById('options-container');
-            
-            qText.innerText = q.q;
-            document.getElementById('question-count').innerText = (currentQ + 1).toString().padStart(2, '0');
-            
-            // 프로그레스 바
-            const progress = ((currentQ) / 10) * 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
+        function showScreen(screenId) {
+            var screens = document.querySelectorAll('.screen');
+            for (var i = 0; i < screens.length; i++) screens[i].classList.remove('active');
+            document.getElementById(screenId).classList.add('active');
+        }
 
-            qOptions.innerHTML = '';
-
-            q.a.forEach((option, index) => {
-                const btn = document.createElement('button');
-                btn.className = "btn-active w-full text-left bg-white border border-slate-200 p-4 rounded-xl text-sm font-medium text-slate-700 hover:border-indigo-500 hover:bg-indigo-50 hover:text-indigo-700 transition-all shadow-sm fade-in leading-snug";
-                btn.style.animationDelay = `${index * 0.05}s`;
-                btn.innerText = option.text;
-                btn.onclick = () => selectOption(option.type);
-                qOptions.appendChild(btn);
-            });
+        function displayQuestion() {
+            var q = questions[currentQuestion];
+            document.getElementById('current-q').textContent = String(currentQuestion + 1).padStart(2, '0');
+            document.getElementById('progress-fill').style.width = ((currentQuestion + 1) / questions.length * 100) + '%';
+            document.getElementById('question-text').textContent = q.text;
+            var container = document.getElementById('options-container');
+            container.innerHTML = '';
+            var shuffled = q.options.slice().sort(function () { return Math.random() - 0.5; });
+            for (var i = 0; i < shuffled.length; i++) {
+                var opt = shuffled[i];
+                var btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt.text;
+                btn.setAttribute('data-type', opt.type);
+                btn.addEventListener('click', function () { selectOption(this.getAttribute('data-type')); });
+                container.appendChild(btn);
+            }
         }
 
         function selectOption(type) {
-            scores[type]++;
-            currentQ++;
-            if (currentQ < questions.length) {
-                renderQuestion();
-            } else {
-                showLoading();
-            }
+            answers[type]++;
+            if (currentQuestion < questions.length - 1) { currentQuestion++; setTimeout(displayQuestion, 150); }
+            else { showLoading(); }
         }
 
-        function showLoading() {
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('loading-screen').classList.remove('hidden');
-            
-            const texts = ["선교 DNA 분석 중...", "결과를 정리하고 있습니다...", "잠시만 기다려주세요..."];
-            let i = 0;
-            const textInterval = setInterval(() => {
-                if(i < texts.length) document.getElementById('loading-text').innerText = texts[i++];
-            }, 800);
-
-            setTimeout(() => {
-                clearInterval(textInterval);
-                showResult();
-            }, 2400);
-        }
+        function showLoading() { showScreen('loading-screen'); setTimeout(showResult, 2500); }
 
         function showResult() {
-            document.getElementById('loading-screen').classList.add('hidden');
-            
-            let maxScore = -1;
-            let resultType = 'A';
-            for (const [key, value] of Object.entries(scores)) {
-                if (value > maxScore) {
-                    maxScore = value;
-                    resultType = key;
-                }
+            var maxType = 'soteriological', maxScore = 0;
+            for (var type in answers) { if (answers[type] > maxScore) { maxScore = answers[type]; maxType = type; } }
+            var result = missionTypes[maxType];
+            document.getElementById('result-icon').textContent = result.icon;
+            document.getElementById('result-badge').textContent = result.englishName;
+            document.getElementById('result-badge').className = 'result-badge ' + maxType;
+            document.getElementById('result-type').textContent = result.name;
+            document.getElementById('result-type').className = 'result-type ' + maxType;
+            document.getElementById('result-summary').textContent = '"' + result.summary + '"';
+            document.getElementById('result-feature').textContent = result.feature;
+            document.getElementById('result-strength').textContent = result.strength;
+            document.getElementById('result-verse-text').textContent = '"' + result.verse + '"';
+            document.getElementById('result-verse-ref').textContent = '— ' + result.verseRef;
+            document.getElementById('result-tip').textContent = result.tip;
+            showScreen('result-screen');
+        }
+
+        function showAllTypes() {
+            var container = document.getElementById('all-types-container');
+            container.innerHTML = '';
+            for (var key in missionTypes) {
+                var type = missionTypes[key];
+                var card = document.createElement('div');
+                card.className = 'type-card ' + key;
+                card.style.cursor = 'pointer';
+                card.onclick = function () { toggleTypeDetail(this); };
+                card.innerHTML =
+                    '<div class="type-card-header">' +
+                    '<span class="type-card-icon">' + type.icon + '</span>' +
+                    '<span class="type-card-name ' + key + '">' + type.name + '</span>' +
+                    '</div>' +
+                    '<p class="type-card-desc">' + type.summary + '</p>' +
+                    '<div class="type-detail" style="display:none; margin-top:16px;">' +
+                    '<div class="result-section"><div class="result-section-title">📖 이 DNA의 특징</div><p class="result-section-content">' + type.feature + '</p></div>' +
+                    '<div class="result-section"><div class="result-section-title">💪 강점</div><p class="result-section-content">' + type.strength + '</p></div>' +
+                    '<div class="result-verse" style="margin:12px 0;"><p class="result-verse-text">"' + type.verse + '"</p><p class="result-verse-ref">— ' + type.verseRef + '</p></div>' +
+                    '<div class="result-tip"><div class="result-tip-title">💡 선교 Tip</div><p class="result-tip-content">' + type.tip + '</p></div>' +
+                    '</div>';
+                container.appendChild(card);
             }
-
-            const res = results[resultType];
-            document.getElementById('result-title').innerText = res.type;
-            document.getElementById('result-subtitle').innerText = res.subtitle;
-            document.getElementById('result-desc').innerText = res.desc;
-            document.getElementById('result-balance').innerText = res.balance;
-
-            const resultScreen = document.getElementById('result-screen');
-            resultScreen.classList.remove('hidden');
-            resultScreen.classList.add('fade-in');
+            document.getElementById('modal-overlay').classList.add('active');
         }
 
-        function saveResult() {
-            const captureArea = document.getElementById('capture-area');
-            document.getElementById('result-screen').scrollTo(0,0);
-            
-            html2canvas(captureArea, { scale: 2, backgroundColor: "#ffffff" }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = '나의_선교_유형_결과.png';
-                link.href = canvas.toDataURL();
-                link.click();
-            });
-        }
-
-        async function shareResult() {
-            const url = window.location.href;
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: '선교 유형 테스트',
-                        text: '나의 선교 DNA를 확인해보세요!',
-                        url: url
-                    });
-                } catch (err) {}
+        function toggleTypeDetail(card) {
+            var detail = card.querySelector('.type-detail');
+            if (detail.style.display === 'none') {
+                detail.style.display = 'block';
             } else {
-                navigator.clipboard.writeText(url).then(() => {
-                    alert('주소가 복사되었습니다.');
-                });
+                detail.style.display = 'none';
             }
         }
 
-        // --- 모든 유형 보기 ---
-        function openAllTypes() {
-            const listContainer = document.getElementById('all-types-list');
-            listContainer.innerHTML = ''; 
-
-            for (const [key, val] of Object.entries(results)) {
-                const card = document.createElement('div');
-                card.className = "bg-white p-5 rounded-2xl border border-slate-200 shadow-sm";
-                card.innerHTML = `
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="bg-indigo-50 text-indigo-600 text-[10px] font-bold px-2 py-1 rounded-full border border-indigo-100">TYPE ${key}</span>
-                        <h4 class="font-bold text-slate-800">${val.type}</h4>
-                    </div>
-                    <p class="text-sm font-semibold text-slate-500 mb-3">${val.subtitle}</p>
-                    <p class="text-xs text-slate-600 leading-relaxed text-justify mb-3">${val.desc}</p>
-                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                        <p class="text-[11px] text-slate-500 leading-relaxed text-justify">💡 ${val.balance}</p>
-                    </div>
-                `;
-                listContainer.appendChild(card);
+        function toggleTypeDetail(card) {
+            var detail = card.querySelector('.type-detail');
+            var arrow = card.querySelector('.type-card-header span:last-child');
+            if (detail.style.display === 'none') {
+                detail.style.display = 'block';
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                detail.style.display = 'none';
+                arrow.style.transform = 'rotate(0deg)';
             }
-            document.getElementById('all-types-modal').classList.remove('hidden');
         }
 
-        function closeAllTypes() {
-            document.getElementById('all-types-modal').classList.add('hidden');
-        }
-        
-        document.getElementById('all-types-modal').addEventListener('click', function(e) {
-            if (e.target === this) closeAllTypes();
-        });
+        function closeModal() { document.getElementById('modal-overlay').classList.remove('active'); }
+        function restartTest() { showScreen('landing-screen'); }
     </script>
 </body>
+
 </html>
