@@ -10,6 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:wght@600;700&display=swap"
         rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --primary: #1a365d;
@@ -578,6 +579,11 @@
             border: 2px solid #e2e8f0;
         }
 
+        .action-btn.donate {
+            background: linear-gradient(135deg, var(--accent) 0%, #dd6b20 100%);
+            color: var(--white);
+        }
+
         .action-btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-soft);
@@ -802,7 +808,7 @@
         </div>
 
         <div id="result-screen" class="screen">
-            <div class="card result-card">
+            <div class="card result-card" id="result-card">
                 <div class="result-icon" id="result-icon">✝️</div>
                 <div class="result-badge" id="result-badge">나의 선교 DNA</div>
                 <h2 class="result-type" id="result-type">결과 유형</h2>
@@ -820,13 +826,17 @@
                     <p class="result-verse-ref" id="result-verse-ref">— 구절 출처</p>
                 </div>
                 <div class="result-tip">
-                    <div class="result-tip-title">💡 단기 선교 Tip</div>
+                    <div class="result-tip-title">💡 선교 Tip</div>
                     <p class="result-tip-content" id="result-tip">선교 팁</p>
                 </div>
                 <p class="powered-by">Powered by 미셔널신학연구소</p>
                 <div class="result-actions">
+                    <button class="action-btn primary" id="save-image-btn">📷 결과 이미지 저장</button>
+                    <button class="action-btn secondary" id="share-btn">🔗 공유하기</button>
                     <button class="action-btn secondary" id="show-all-btn">👀 다른 유형 전체 보기</button>
-                    <button class="action-btn primary" id="restart-btn">🔄 처음부터 다시 하기</button>
+                    <button class="action-btn secondary" id="restart-btn">🔄 처음부터 다시 하기</button>
+                    <a href="https://www.imt.or.kr/give" target="_blank" class="action-btn donate"
+                        style="text-decoration:none;">💝 미셔널신학연구소 후원하기</a>
                 </div>
             </div>
         </div>
@@ -972,6 +982,8 @@
             document.getElementById('show-all-btn').addEventListener('click', showAllTypes);
             document.getElementById('restart-btn').addEventListener('click', restartTest);
             document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+            document.getElementById('save-image-btn').addEventListener('click', saveAsImage);
+            document.getElementById('share-btn').addEventListener('click', shareResult);
             document.getElementById('modal-overlay').addEventListener('click', function (e) {
                 if (e.target === document.getElementById('modal-overlay')) closeModal();
             });
@@ -1072,15 +1084,35 @@
             }
         }
 
-        function toggleTypeDetail(card) {
-            var detail = card.querySelector('.type-detail');
-            var arrow = card.querySelector('.type-card-header span:last-child');
-            if (detail.style.display === 'none') {
-                detail.style.display = 'block';
-                arrow.style.transform = 'rotate(0deg)';
+        function saveAsImage() {
+            var resultCard = document.getElementById('result-card');
+            html2canvas(resultCard, {
+                backgroundColor: '#fdf6e9',
+                scale: 2
+            }).then(function (canvas) {
+                var link = document.createElement('a');
+                link.download = '나의_선교DNA_결과.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        function shareResult() {
+            var resultType = document.getElementById('result-type').textContent;
+            var resultSummary = document.getElementById('result-summary').textContent;
+            var shareText = '🌍 나의 선교 DNA: ' + resultType + '\n' + resultSummary + '\n\n나도 테스트 해보기 👉';
+            var shareUrl = window.location.href;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: '4가지 선교 DNA 테스트',
+                    text: shareText,
+                    url: shareUrl
+                });
             } else {
-                detail.style.display = 'none';
-                arrow.style.transform = 'rotate(0deg)';
+                navigator.clipboard.writeText(shareText + ' ' + shareUrl).then(function () {
+                    alert('공유 링크가 클립보드에 복사되었습니다! 📋');
+                });
             }
         }
 
