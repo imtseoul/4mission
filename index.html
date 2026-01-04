@@ -809,27 +809,29 @@
 
         <div id="result-screen" class="screen">
             <div class="card result-card" id="result-card">
-                <div class="result-icon" id="result-icon">✝️</div>
-                <div class="result-badge" id="result-badge">나의 선교 DNA</div>
-                <h2 class="result-type" id="result-type">결과 유형</h2>
-                <p class="result-summary" id="result-summary">"요약 문구"</p>
-                <div class="result-section">
-                    <div class="result-section-title">📖 이 DNA의 특징</div>
-                    <p class="result-section-content" id="result-feature">특징 설명</p>
+                <div id="capture-area">
+                    <div class="result-icon" id="result-icon">✝️</div>
+                    <div class="result-badge" id="result-badge">나의 선교 DNA</div>
+                    <h2 class="result-type" id="result-type">결과 유형</h2>
+                    <p class="result-summary" id="result-summary">"요약 문구"</p>
+                    <div class="result-section">
+                        <div class="result-section-title">📖 이 DNA의 특징</div>
+                        <p class="result-section-content" id="result-feature">특징 설명</p>
+                    </div>
+                    <div class="result-section">
+                        <div class="result-section-title">💪 당신의 강점</div>
+                        <p class="result-section-content" id="result-strength">강점 설명</p>
+                    </div>
+                    <div class="result-verse">
+                        <p class="result-verse-text" id="result-verse-text">성경 구절</p>
+                        <p class="result-verse-ref" id="result-verse-ref">— 구절 출처</p>
+                    </div>
+                    <div class="result-tip">
+                        <div class="result-tip-title">💡 선교 Tip</div>
+                        <p class="result-tip-content" id="result-tip">선교 팁</p>
+                    </div>
+                    <p class="powered-by">Powered by 미셔널신학연구소</p>
                 </div>
-                <div class="result-section">
-                    <div class="result-section-title">💪 당신의 강점</div>
-                    <p class="result-section-content" id="result-strength">강점 설명</p>
-                </div>
-                <div class="result-verse">
-                    <p class="result-verse-text" id="result-verse-text">성경 구절</p>
-                    <p class="result-verse-ref" id="result-verse-ref">— 구절 출처</p>
-                </div>
-                <div class="result-tip">
-                    <div class="result-tip-title">💡 선교 Tip</div>
-                    <p class="result-tip-content" id="result-tip">선교 팁</p>
-                </div>
-                <p class="powered-by">Powered by 미셔널신학연구소</p>
                 <div class="result-actions">
                     <button class="action-btn primary" id="save-image-btn">📷 결과 이미지 저장</button>
                     <button class="action-btn secondary" id="share-btn">🔗 공유하기</button>
@@ -1085,14 +1087,37 @@
         }
 
         function saveAsImage() {
+            var captureArea = document.getElementById('capture-area');
             var resultCard = document.getElementById('result-card');
-            html2canvas(resultCard, {
-                backgroundColor: '#fdf6e9',
-                scale: 2
+
+            // 캡처 전: 배경을 완전 불투명하게 설정
+            var originalCardBg = resultCard.style.background;
+            var originalCardBoxShadow = resultCard.style.boxShadow;
+            var originalCaptureAreaBg = captureArea.style.background;
+
+            resultCard.style.background = '#ffffff';
+            resultCard.style.boxShadow = 'none';
+            captureArea.style.background = '#ffffff';
+            captureArea.style.padding = '30px';
+            captureArea.style.borderRadius = '24px';
+
+            html2canvas(captureArea, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                removeContainer: true
             }).then(function (canvas) {
+                // 캡처 후: 원래대로 복원
+                resultCard.style.background = originalCardBg;
+                resultCard.style.boxShadow = originalCardBoxShadow;
+                captureArea.style.background = originalCaptureAreaBg;
+                captureArea.style.padding = '';
+                captureArea.style.borderRadius = '';
+
                 var link = document.createElement('a');
                 link.download = '나의_선교DNA_결과.png';
-                link.href = canvas.toDataURL('image/png');
+                link.href = canvas.toDataURL('image/png', 1.0);
                 link.click();
             });
         }
@@ -1100,7 +1125,16 @@
         function shareResult() {
             var resultType = document.getElementById('result-type').textContent;
             var resultSummary = document.getElementById('result-summary').textContent;
-            var shareText = '🌍 나의 선교 DNA: ' + resultType + '\n' + resultSummary + '\n\n나도 테스트 해보기 👉';
+            var resultStrength = document.getElementById('result-strength').textContent;
+            var resultVerse = document.getElementById('result-verse-text').textContent;
+            var resultVerseRef = document.getElementById('result-verse-ref').textContent;
+
+            var shareText = '✈️ 4가지 선교 DNA 테스트 결과\n\n' +
+                '🎯 나의 선교 DNA: ' + resultType + '\n' +
+                resultSummary + '\n\n' +
+                '💪 나의 강점:\n' + resultStrength + '\n\n' +
+                '📖 ' + resultVerse + '\n' + resultVerseRef + '\n\n' +
+                '나도 테스트 해보기 👉';
             var shareUrl = window.location.href;
 
             if (navigator.share) {
